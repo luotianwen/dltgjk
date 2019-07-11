@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">拼团详情</h1>
+		</header>
+		<div class="mui-content">
+			
+			
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/yuantiao.jpg">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/shuijiao.jpg">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/muwu.jpg">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/cbd.jpg">
+						</a>
+					</div>
+					<!-- 第四张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="images/yuantiao.jpg">
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="images/shuijiao.jpg">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<div class="fn_wrap">
+			    
+			    <h4 class="fn fn_goods_name" id="favWrap">
+			        <div class="fn_text_wrap" id="itemName" >【经典款】诺诗兰2019秋冬新品户外男式防风保暖休闲风雪外套 GF085X09 纯黑色  </div>
+			    </h4>
+			    <div class="J_ping desc right_shorter" id="itemDesc"  style=""> 原价 500 已拼团人数：10人</div>
+			   
+			</div>
+				
+			<div>
+				商品介绍
+			</div>
+			<div>
+			 
+			 
+				<p>
+					<img src="http://image.yoyound.com//userfiles/goods/images/20190711/1562811343825050808.jpg" title="1562811343825050808.jpg" />
+				</p>
+				<p>
+					<img src="http://image.yoyound.com//userfiles/goods/images/20190711/1562811343869031654.jpg" title="1562811343869031654.jpg" />
+				</p>
+				<p>
+					<br />
+				</p>
+			</div>
+
+	<div class="mui-button-row">
+		<a href="join.html">
+					<button type="button" class="mui-btn mui-btn-primary"  >参与拼团</button> </a>
+				</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		mui.init();
+		var slider = mui("#slider");
+		slider.slider({
+			interval: 5000
+		});
+	</script>
+</html>

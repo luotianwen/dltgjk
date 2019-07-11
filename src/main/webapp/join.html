@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		 
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">团购商品</h1>
+		</header>
+
+		<div class="mui-content" id="news">
+
+			<!-- <h5 class="mui-content-padded">选择商品：</h5> -->
+
+			<!-- <div class="mui-card">
+				<form class="mui-input-group">
+					<div class="mui-input-row mui-radio mui-left">
+						<label>商品1</label>
+						<input name="radio1" v-model="product" type="radio" value="1">
+					</div>
+					<div class="mui-input-row mui-radio mui-left">
+						<label>商品2</label>
+						<input name="radio1" v-model="product" type="radio" value="2">
+					</div>
+				</form>
+
+			</div> -->
+			<div class="mui-content-padded">
+				<h5>选择规格：</h5>
+				<div class="mui-input-row ">
+					<input type="text" v-model="spec1" placeholder="颜色" class="mui-input-clear">
+				</div>
+				<h5>选择规格2：</h5>
+				<div class="mui-input-row ">
+					<input type="text"  v-model="spec2"  placeholder="尺码"  class="mui-input-clear">
+				</div>
+				<h5 class="mui-content-padded">购买数量：</h5>
+				<div class="mui-numbox" data-numbox-min='1'>
+					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+					<input class="mui-input-numbox" type="number" v-model="num"/>
+					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+				</div>
+				<h5>会员姓名：</h5>
+				<div class="mui-input-row ">
+					<input type="text" v-model="userName" class="mui-input-clear">
+				</div>
+				<h5>会员电话：</h5>
+				<div class="mui-input-row ">
+					<input type="text"  v-model="mobile"  class="mui-input-clear">
+				</div>
+				<h5>收件姓名：</h5>
+				<div class="mui-input-row ">
+					<input type="text" v-model="consignee" class="mui-input-clear">
+				</div>
+				<h5>收件电话：</h5>
+				<div class="mui-input-row ">
+					<input type="text" v-model="phone" class="mui-input-clear">
+				</div>
+				<h5>收件地址：</h5>
+				<div class="mui-input-row ">
+					<input type="text" v-model="address" class="mui-input-clear">
+				</div>
+				<div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" onclick="add()">确认</button>&nbsp;&nbsp;
+					<button type="button" class="mui-btn mui-btn-danger" onclick="closeee()">取消</button>
+				</div>
+			</div>
+
+
+		</div>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			 
+			var news = new Vue({
+				el: '#news',
+				data: {
+					product:"",
+					num:1,
+					userName: "", 
+					phone: "",
+					consignee:"",
+					mobile:"",
+					address:""
+					
+				}
+			});
+			function closeee() {
+				alert(news.product);
+				var btnArray = ['否', '是'];
+				mui.confirm('是否要取消，确认？', '取消团购', btnArray, function(e) {
+					if (e.index == 1) {
+						//info.innerText = '你刚确认MUI是个好框架';
+					} else {
+						//info.innerText = 'MUI没有得到你的认可，继续加油'
+					}
+				});
+			}
+
+			function add() {
+				//mui.alert('欢迎使用Hello MUI', '团购报名成功');
+				 
+/* 				var data = {
+					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
+				}; */
+				//请求历史列表信息流
+				/* mui.getJSON("http://spider.dcloud.net.cn/api/news", data, function(rsp) {
+
+				}); */
+
+			}
+		</script>
+
+
+
+	</body>
+</html>
