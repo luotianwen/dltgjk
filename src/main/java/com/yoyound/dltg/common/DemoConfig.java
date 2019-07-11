@@ -1,5 +1,6 @@
 package com.yoyound.dltg.common;
 
+import com.jfinal.ext.handler.UrlSkipHandler;
 import com.yoyound.dltg.index.DataController;
 import com.yoyound.dltg.index.IndexController;
 import com.jfinal.config.Constants;
@@ -101,6 +102,6 @@ public class DemoConfig extends JFinalConfig {
 	 * 配置处理器
 	 */
 	public void configHandler(Handlers me) {
-		
+		me.add(new UrlSkipHandler(".+\\.html", false));
 	}
 }

@@ -5,12 +5,12 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<script src="js/mui.min.js"></script>
+		<script src="js/mui.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/v5.css" rel="stylesheet" />
 		<link href="css/m-common.css" rel="stylesheet" />
 		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
-		 <script src="js/common.js"></script>
+		<script src="js/common.js"></script>
 	</head>
 
 	<body>
@@ -18,12 +18,11 @@
 			<h1 class="mui-title">嗨夏团购</h1>
 		</header>
 		<div class="mui-content" style="padding-top: 50px;" id="vues">
-             
+
 			<div class="pro-wrap pro-wrap-list  lazyimg" v-for="item in goods">
-				<div class="pro-info pr " >
+				<div class="pro-info pr ">
 					<div class="pr oneColumn" @tap="open_detail(item)">
-						<div class="img-c pr"> <img class="bd-img opa1" :src="item.logo"
-							  > </div>
+						<div class="img-c pr"> <img class="bd-img opa1" :src="item.logo"> </div>
 						<div class="text-c">
 							<div class="pro-title pr">
 								<div class="name hor-view">
@@ -41,25 +40,44 @@
 					</a>
 				</div>
 			</div>
-			 
+
 		</div>
 	</body>
 	<script type="text/javascript">
-		mui.init();
+		mui.init({
+			preloadPages: [{
+				id: 'goods.html',
+				url: 'goods.html'
+			}]
+		});
 		var news = new Vue({
-					el: '#vues',
-					data: {
-						goods:[]						 
-					}
-				});	
-				
-			mui.post(index(),"",function(newhouse){
-			    console.log(JSON.stringify(newhouse));
-					//服务器返回响应，根据响应结果，分析是否登录成功；
-					if( newhouse.length > 0) {
-						news.goods=newhouse;
-					}
-				},'json'
-			);
+			el: '#vues',
+			data: {
+				goods: []
+			}
+		});
+
+		mui.ready(function() {
+			data();
+		})
+
+
+		function data() {
+			mui.post(index(), "", function(newhouse) {
+				if (newhouse.length > 0) {
+					news.goods = newhouse;
+				}
+			}, 'json');
+		}
+		var detailPage = null;
+
+		function open_detail(item) {
+			  var str = JSON.stringify(item);  
+            localStorage.goods = str;  
+			mui.openWindow({
+				id: 'goods.html',
+				url: 'goods.html'
+			});
+		}
 	</script>
 </html>
