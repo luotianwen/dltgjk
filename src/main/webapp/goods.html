@@ -69,13 +69,13 @@
 			<div class="title">图文详情</div>
 			<div v-html='goods.details'>
 			</div>
-			<div class="mui-card" style="margin-bottom: 35px;">
+			 <div class="mui-card" style="margin-bottom: 35px;">
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell">
-						   {{goods.spec1}} &nbsp;&nbsp;&nbsp; &nbsp;{{goods.spec2}} &nbsp;&nbsp;&nbsp;&nbsp;  库存
+						   {{goods.spec1}} &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; {{goods.spec2}}
 					</li>
 					<li class="mui-table-view-cell" v-for="item in goods.skus">
-						{{item.spec1}} &nbsp;&nbsp;&nbsp; &nbsp;{{item.spec2}} &nbsp;&nbsp;&nbsp;&nbsp;  {{item.stock}}
+						{{item.spec1}} &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{item.spec2}}
 					</li>
 
 				</ul>
@@ -112,7 +112,9 @@
 			    id:data.id
 			}
             mui.post(getGoodById(), pdata, function(newhouse) {
-                    news.goods = newhouse;
+                var str = JSON.stringify(newhouse);
+                localStorage.goods = str;
+                news.goods = newhouse;
             }, 'json');
 		})
 

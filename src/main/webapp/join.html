@@ -20,14 +20,20 @@
 
 			<div class="mui-content-padded">
 				<h5>{{spec11}}:</h5>
-				<div class="mui-input-row ">
+				<!--<div class="mui-input-row ">
 					<input type="text" v-model="spec1"   class="mui-input-clear">
+				</div>-->
+				<div class="mui-input-row mui-radio mui-left" v-for="item in spec1s ">
+					<label>{{item.name}}</label>
+					<input v-model="spec1"   type="radio" :value="item.name">
 				</div>
+
 				<block v-if="spec12">
 				<h5>{{spec12}}：</h5>
-				<div class="mui-input-row ">
-					<input type="text"  v-model="spec2"    class="mui-input-clear">
-				</div>
+					<div class="mui-input-row mui-radio mui-left" v-for="item in spec2s ">
+						<label>{{item.name}}</label>
+						<input v-model="spec2"   type="radio" :value="item.name">
+					</div>
                </block>
 				<h5 class="mui-content-padded">购买数量：</h5>
 				<div class="mui-numbox" data-numbox-min='1'>
@@ -83,8 +89,9 @@
                     spec11:"",
                     spec12:"",
                     spec1:"",
-                    spec2:""
-
+                    spec2:"",
+                    spec1s:[],
+                    spec2s:[]
 				}
 			});
 			function closeee() {
@@ -104,6 +111,8 @@
                 news.artNo=data.artNo;
                 news.spec11=data.spec1;
                 news.spec12=data.spec2;
+                news.spec1s=data.spec1s;
+                news.spec2s=data.spec2s;
                 try{
                 var info = JSON.parse(localStorage.info);
                 news.phone=info.phone;

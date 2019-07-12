@@ -5,10 +5,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class DataController extends Controller {
 	public void index() {
@@ -45,6 +42,25 @@ public class DataController extends Controller {
 
 		}
 		List<Record> skus=Db.find("select spec1,spec2,stock from dl_goods_sku_tuan where goods_id=? ",id);
+		List<Record> spec1s=new ArrayList<>();
+		List<Record> spec2s=new ArrayList<>();
+		Map<String,String> spec1Map=new HashMap<>();
+		Map<String,String> spec2Map=new HashMap<>();
+		String spec1=null,spec2=null;
+		for (Record s:skus){
+			spec1=s.getStr("spec1");
+			spec2=s.getStr("spec2");
+			if(null==spec1Map.get(spec1)){
+				spec1Map.put(spec1,spec1);
+				spec1s.add(new Record().set("name",spec1));
+			}
+			if(StrKit.notBlank(spec2)&&null==spec2Map.get(spec2)){
+				spec2Map.put(spec2,spec2);
+				spec2s.add(new Record().set("name",spec2));
+			}
+		}
+		r.set("spec1s",spec1s);
+		r.set("spec2s",spec2s);
 		Date end=r.getDate("end_date");
         r.set("time",getDatePoor(end,new Date()));
 		r.set("urls",imgs);
