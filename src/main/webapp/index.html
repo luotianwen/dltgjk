@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
-		<script src="js/mui.js"></script>
+		<script src="js/mui.min.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/v5.css" rel="stylesheet" />
 		<link href="css/m-common.css" rel="stylesheet" />
@@ -17,8 +17,8 @@
 		<header class="mui-bar mui-bar-nav">
 			<h1 class="mui-title">嗨夏团购</h1>
 		</header>
-		<div class="mui-content" style="padding-top: 50px;" id="vues">
-
+		<div class="mui-content  mui-scroll-wrapper" style="padding-top: 50px;" id="vues">
+<div class="mui-scroll">
 			<div class="pro-wrap pro-wrap-list  lazyimg" v-for="item in goods">
 				<div class="pro-info pr ">
 					<div class="pr oneColumn" @tap="open_detail(item)">
@@ -30,8 +30,8 @@
 								</div>
 							</div>
 							<div class="item-desc line-clamp-1"> <span>市场价：{{item.market_price}}</span> </div>
-							<div class="JXlabel"> <span> {{item.remarks}}</span></div>
-							<div class="pinInfo"> <span class="ys ysjs"><span class="forange">已拼{{item.orders}}件</span></span> </div>
+							<div class="pinInfo"> <span> {{item.time}}后优惠结束</span></div>
+							<div class="JXlabel"> <span class="ys ysjs">{{item.remarks}}<span class="forange"> /已拼{{item.orders}}件</span></span> </div>
 							<div class="priceInfo"> <span class="sale-price " data-saleprice="1"><i class="f24">¥</i>{{item.price}}</span>
 								<div class="btn-aqua goBtn">立即开拼</div>
 							</div>
@@ -40,15 +40,18 @@
 					</a>
 				</div>
 			</div>
-
+</div>
 		</div>
 	</body>
 	<script type="text/javascript">
 		mui.init({
-			preloadPages: [{
-				id: 'goods.html',
-				url: 'goods.html'
-			}]
+			pullRefresh: {
+				container: '#vues',
+				down: {
+					style:'circle',
+					callback: pulldownRefresh
+				} 
+			}
 		});
 		var news = new Vue({
 			el: '#vues',
@@ -61,7 +64,16 @@
 			data();
 		})
 
-
+/**
+			 * 下拉刷新具体业务实现
+			 */
+		function pulldownRefresh() {
+			setTimeout(function() {
+				data();
+				mui('#vues').pullRefresh().endPulldownToRefresh();
+				mui.toast("刷新数据了");
+			}, 1500);
+		}
 		function data() {
 			mui.post(index(), "", function(newhouse) {
 				if (newhouse.length > 0) {

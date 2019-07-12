@@ -10,6 +10,7 @@
 		<link href="css/m-common.css" rel="stylesheet" />
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js"></script>
 		<style>
 
 		</style>
@@ -27,48 +28,38 @@
 				<div class="mui-slider-group mui-slider-loop">
 					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 					<div class="mui-slider-item mui-slider-item-duplicate">
-						<img src="images/yuantiao.jpg">
+						<img :src="goods.furl" style="height: 400px">
 					</div>
 					<!-- 第一张 -->
-					<div class="mui-slider-item">
-						<img src="images/shuijiao.jpg">
+					<div class="mui-slider-item" v-for="item in goods.urls">
+						<img :src="item.url" style="height: 400px">
 					</div>
-					<!-- 第二张 -->
-					<div class="mui-slider-item">
-						<img src="images/muwu.jpg">
-					</div>
-					<!-- 第三张 -->
-					<div class="mui-slider-item">
-						<img src="images/cbd.jpg">
-					</div>
-					<!-- 第四张 -->
-					<div class="mui-slider-item">
-						<img src="images/yuantiao.jpg">
-					</div>
+					 
 					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
 					<div class="mui-slider-item mui-slider-item-duplicate">
-						<img src="images/shuijiao.jpg">
+						<img :src="goods.eurl" style="height: 400px">
 					</div>
 				</div>
 				<div class="mui-slider-indicator">
 					<div class="mui-indicator mui-active"></div>
-					<div class="mui-indicator"></div>
-					<div class="mui-indicator"></div>
-					<div class="mui-indicator"></div>
+					
+					<div class="mui-indicator" v-for="item in goods.urll"></div>
+					 
 				</div>
 			</div>
 			<div class="mainInfo">
-				<div class="priceInfo hasBigPic" style="background: url(&quot;//image.suning.cn/uimg/pgs/activity/154803967516466376.png&quot;) center center / 15rem 2.4rem no-repeat rgb(255, 61, 51);">
+				<div class="priceInfo hasBigPic" style="background: url(/images/154803967516466376.png) center center / 15rem 2.4rem no-repeat rgb(255, 61, 51);">
 					<div class="hasBgPrice-wrap"></div>
-					<div class="pgPrice-wrap pr"> <span class="pgPrice">¥<span class="big">6</span>.90</span>
-						<div class="pin-wrap"><span class="memberNum-wrap"><span class="memberNum">2</span><span class="memberNumTxt">人拼</span></span></div>
-						<span class="saleStore">已拼3747件</span>
+					<div class="pgPrice-wrap pr"> <span class="pgPrice">¥<span class="big">{{goods.price}}</span></span>
+						<div class="pin-wrap"><span class="memberNum-wrap">
+							<!-- <span class="memberNum">2</span>--><span class="memberNumTxt">{{goods.remarks}}</span></span></div>
+						<span class="saleStore">已拼{{goods.orders}}件</span>
 					</div>
-					<div class="delPrice-wrap"> <span class="delPriceTip">1天1小时后优惠结束</span> </div>
+					<div class="delPrice-wrap"> <span class="delPriceTip">{{goods.time}}后优惠结束</span> </div>
 				</div>
 				<div class="proInfo">
 					<div>
-						<h4 class="itemName" style="display: initial;">阿里巴老人头男士皮带男休闲商务中青年裤带男时尚荔枝纹百搭腰带男士</h4>
+						<h4 class="itemName" style="display: initial;">{{goods.name}}</h4>
 					</div>
 
 				</div>
@@ -76,28 +67,39 @@
 
 
 			<div class="title">图文详情</div>
-			<div>
-
-
-				<p>
-					<img src="http://image.yoyound.com//userfiles/goods/images/20190711/1562811343825050808.jpg" title="1562811343825050808.jpg" />
-				</p>
-				<p>
-					<img src="http://image.yoyound.com//userfiles/goods/images/20190711/1562811343869031654.jpg" title="1562811343869031654.jpg" />
-				</p>
-				<p>
-					<br />
-				</p>
+			<div v-html='goods.details'>
 			</div>
+			<div class="mui-card" style="margin-bottom: 35px;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						   {{goods.spec1}} &nbsp;&nbsp;&nbsp; &nbsp;{{goods.spec2}} &nbsp;&nbsp;&nbsp;&nbsp;  库存
+					</li>
+					<li class="mui-table-view-cell" v-for="item in goods.skus">
+						{{item.spec1}} &nbsp;&nbsp;&nbsp; &nbsp;{{item.spec2}} &nbsp;&nbsp;&nbsp;&nbsp;  {{item.stock}}
+					</li>
 
-			<div class="mui-button-row">
-				<a href="join.html">
-					<button type="button" class="mui-btn mui-btn-primary">参与拼团</button> </a>
+				</ul>
+			</div>
+			<div class="btns">
+
+					<button type="button" id="button" @tap="save()" class="mui-btn mui-btn-danger"  style="display:block;margin:0 auto">参与拼团</button>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
 		mui.init();
+        var news = new Vue({
+            el: '#vues',
+            data: {
+                goods:{
+                    name:"",
+                    urll:0,
+                    urls:[],
+                    furl:"",
+                    eurl:""
+				}
+            }
+        });
 		var slider = mui("#slider");
 		slider.slider({
 			interval: 5000
@@ -105,7 +107,20 @@
 
 		mui.ready(function() {
 			var data = JSON.parse(localStorage.goods);
-			mui.alert(data.id);
+
+			var pdata={
+			    id:data.id
+			}
+            mui.post(getGoodById(), pdata, function(newhouse) {
+                    news.goods = newhouse;
+            }, 'json');
 		})
+
+        function save() {
+            mui.openWindow({
+                id: 'join.html',
+                url: 'join.html'
+            });
+        }
 	</script>
 </html>
