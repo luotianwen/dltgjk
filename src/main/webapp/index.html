@@ -29,10 +29,13 @@
 									<div class="item-name line-clamp-2 ">{{item.name}}</div>
 								</div>
 							</div>
-							<div class="item-desc line-clamp-1"> <span>市场价：{{item.market_price}}</span> </div>
-							<div class="pinInfo"> <span> {{item.time}}后优惠结束</span></div>
-							<div class="JXlabel"> <span class="ys ysjs">{{item.remarks}}<span class="forange"> /已拼{{item.orders}}件</span></span> </div>
-							<div class="priceInfo"> <span class="sale-price "><i class="f24">团购价¥</i>{{item.price}}</span>
+							<div class="pinInfo" style="margin-top:0.3rem "><span> {{item.time}}后优惠结束</span></div>
+							<div class="JXlabel"><span class="ys ysjs">{{item.remarks}}<span class="forange"> /已拼{{item.orders}}件</span></span>
+							</div>
+							<!--<div class="JXlabel"><span>市场价：{{item.market_price}}</span></div>-->
+							<div class="priceInfo">
+								<span class="sale-price "><i class="f24">团购价¥</i>{{item.price}}</span>
+								<span style="text-decoration: line-through;">¥{{item.market_price}}</span>
 								<div class="btn-aqua goBtn">立即开拼</div>
 							</div>
 						</div>
