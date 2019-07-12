@@ -1,95 +1,100 @@
 <!doctype html>
 <html>
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
-		<script src="js/mui.min.js"></script>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link href="css/v5.css" rel="stylesheet" />
-		<link href="css/m-common.css" rel="stylesheet" />
-		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/common.js"></script>
-	</head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link href="css/v5.css" rel="stylesheet"/>
+    <link href="css/m-common.css" rel="stylesheet"/>
+    <script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/common.js"></script>
+</head>
 
-	<body>
-		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">动力跃博，嗨夏团购</h1>
-		</header>
-		<div class="mui-content  mui-scroll-wrapper" style="padding-top: 50px;" id="vues">
-<div class="mui-scroll">
-			<div class="pro-wrap pro-wrap-list  lazyimg" v-for="item in goods">
-				<div class="pro-info pr ">
-					<div class="pr oneColumn" @tap="open_detail(item)">
-						<div class="img-c pr"> <img class="bd-img opa1" :src="item.logo"> </div>
-						<div class="text-c">
-							<div class="pro-title pr">
-								<div class="name hor-view">
-									<div class="item-name line-clamp-2 ">{{item.name}}</div>
-								</div>
-							</div>
-							<div class="item-desc line-clamp-1"> <span>市场价：{{item.market_price}}</span> </div>
-							<div class="pinInfo"> <span> {{item.time}}后优惠结束</span></div>
-							<div class="JXlabel"> <span class="ys ysjs">{{item.remarks}}<span class="forange"> /已拼{{item.orders}}件</span></span> </div>
-							<div class="priceInfo"> <span class="sale-price "><i class="f24">团购价¥</i>{{item.price}}</span>
-								<div class="btn-aqua goBtn">立即开拼</div>
-							</div>
-						</div>
-					</div>
-					</a>
-				</div>
-			</div>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <h1 class="mui-title">动力跃博   嗨夏团购</h1>
+</header>
+<div class="mui-content  mui-scroll-wrapper" style="padding-top: 50px;" id="vues">
+    <div class="mui-scroll">
+        <div class="pro-wrap pro-wrap-list  lazyimg" v-for="item in goods">
+            <div class="pro-info pr ">
+                <div class="pr oneColumn" @tap="open_detail(item)">
+                    <div class="img-c pr"><img class="bd-img opa1" :src="item.logo"></div>
+                    <div class="text-c">
+                        <div class="pro-title pr">
+                            <div class="name hor-view">
+                                <div class="item-name line-clamp-2 ">{{item.name}}</div>
+                            </div>
+                        </div>
+
+                        <div class="pinInfo" style="margin-top:0.3rem "><span> {{item.time}}后优惠结束</span></div>
+                        <div class="JXlabel"><span class="ys ysjs">{{item.remarks}}<span class="forange"> /已拼{{item.orders}}件</span></span>
+                        </div>
+                        <div class="JXlabel"><span>市场价：{{item.market_price}}</span></div>
+                        <div class="priceInfo"><span class="sale-price "><i class="f24">团购价¥</i>{{item.price}}</span>
+                            <div class="btn-aqua goBtn">立即开拼</div>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
-		</div>
-	</body>
-	<script type="text/javascript">
-		mui.init({
-			pullRefresh: {
-				container: '#vues',
-				down: {
-					style:'circle',
-					callback: pulldownRefresh
-				} 
-			}
-		});
-		var news = new Vue({
-			el: '#vues',
-			data: {
-				goods: []
-			}
-		});
+</body>
+<script type="text/javascript">
+    mui.init({
+        pullRefresh: {
+            container: '#vues',
+            down: {
+                style: 'circle',
+                callback: pulldownRefresh
+            }
+        }
+    });
+    var news = new Vue({
+        el: '#vues',
+        data: {
+            goods: []
+        }
+    });
 
-		mui.ready(function() {
-			data();
-		})
+    mui.ready(function () {
+        data();
+    })
 
-/**
-			 * 下拉刷新具体业务实现
-			 */
-		function pulldownRefresh() {
-			setTimeout(function() {
-				data();
-				mui('#vues').pullRefresh().endPulldownToRefresh();
-				mui.toast("刷新数据了");
-			}, 1500);
-		}
-		function data() {
-			mui.post(index(), "", function(newhouse) {
-				if (newhouse.length > 0) {
-					news.goods = newhouse;
-				}
-			}, 'json');
-		}
-		var detailPage = null;
+    /**
+     * 下拉刷新具体业务实现
+     */
+    function pulldownRefresh() {
+        setTimeout(function () {
+            data();
+            mui('#vues').pullRefresh().endPulldownToRefresh();
+            mui.toast("刷新数据了");
+        }, 1500);
+    }
 
-		function open_detail(item) {
-			  var str = JSON.stringify(item);  
-            localStorage.goods = str;  
-			mui.openWindow({
-				id: 'goods.html',
-				url: 'goods.html'
-			});
-		}
-	</script>
+    function data() {
+        mui.post(index(), "", function (newhouse) {
+            if (newhouse.length > 0) {
+                news.goods = newhouse;
+            }
+        }, 'json');
+    }
+
+    var detailPage = null;
+
+    function open_detail(item) {
+        var str = JSON.stringify(item);
+        localStorage.goods = str;
+        mui.openWindow({
+            id: 'goods.html',
+            url: 'goods.html'
+        });
+    }
+</script>
 </html>
