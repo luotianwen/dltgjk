@@ -9,7 +9,7 @@ import java.util.*;
 
 public class DataController extends Controller {
 	public void index() {
-		List<Record> goods= Db.find("select id,name,artNo,logo,price,market_price ,remarks,end_date,spec1,spec2,(select count(o.id) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date order by end_date asc ");
+		List<Record> goods= Db.find("select id,name,artNo,logo,price,market_price ,remarks,end_date,spec1,spec2,(select sum(o.number) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date order by end_date asc ");
 		for (Record r:goods){
 			if(r.getStr("logo").indexOf("http")<0){
 				r.set("logo","http://image.yoyound.com"+r.getStr("logo"));
@@ -21,7 +21,7 @@ public class DataController extends Controller {
 	}
 	public void getGoodById() {
 		String id=getPara("id");
-		 Record r= Db.findFirst("select id,name,artNo,logo,price,market_price ,imgs,remarks,end_date,details,spec1,spec2,(select count(o.id) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date and id=?",id);
+		 Record r= Db.findFirst("select id,name,artNo,logo,price,market_price ,imgs,remarks,end_date,details,spec1,spec2,(select sum(o.number) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date and id=?",id);
 
 		if(r.getStr("logo").indexOf("http")<0){
 			r.set("logo","http://image.yoyound.com"+r.getStr("logo"));
