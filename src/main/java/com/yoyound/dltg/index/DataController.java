@@ -9,19 +9,20 @@ import java.util.*;
 
 public class DataController extends Controller {
 	public void index() {
-		List<Record> goods= Db.find("select id,name,artNo,logo,price,market_price ,remarks,end_date,spec1,spec2,(select sum(o.number) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date order by end_date asc ");
+		List<Record> goods= Db.find("select id,name,artNo,logo,price,market_price ,remarks,end_date,spec1,spec2,(select IFNULL(sum(o.number),0)  from dl_order_tuan o where o.goods_id=t.id and o.del_flag='0')as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date order by end_date asc ");
 		for (Record r:goods){
 			if(r.getStr("logo").indexOf("http")<0){
 				r.set("logo","http://image.yoyound.com"+r.getStr("logo"));
 			}
 			Date end=r.getDate("end_date");
 			r.set("time",getDatePoor(end,new Date()));
+
 		}
 		renderJson(goods);
 	}
 	public void getGoodById() {
 		String id=getPara("id");
-		 Record r= Db.findFirst("select id,name,artNo,logo,price,market_price ,imgs,remarks,end_date,details,spec1,spec2,(select sum(o.number) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date and id=?",id);
+		 Record r= Db.findFirst("select id,name,artNo,logo,price,market_price ,imgs,remarks,end_date,details,spec1,spec2,(select IFNULL(sum(o.number),0)  from dl_order_tuan o where o.goods_id=t.id and o.del_flag='0')as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date and id=?",id);
 
 		if(r.getStr("logo").indexOf("http")<0){
 			r.set("logo","http://image.yoyound.com"+r.getStr("logo"));
@@ -61,8 +62,8 @@ public class DataController extends Controller {
 		}
 		r.set("spec1s",spec1s);
 		r.set("spec2s",spec2s);
-		Date end=r.getDate("end_date");
-        r.set("time",getDatePoor(end,new Date()));
+		//Date end=r.getDate("end_date");
+        r.set("time",new Date());
 		r.set("urls",imgs);
 		r.set("skus",skus);
 		r.set("furl",imgs.get(0).getStr("url"));
@@ -103,7 +104,7 @@ public class DataController extends Controller {
         boolean f=true;
         Record r=new Record();
         r.set("code",1);
-        r.set("msg","拼团成功,等待客服联系确认。");
+        r.set("msg","谢谢参与,等待客服联系确认。");
 		Record good= Db.findFirst("select id,name,artNo,logo,price,market_price ,imgs,remarks,end_date,details,spec1,spec2,(select count(o.id) from dl_order_tuan o where o.goods_id=t.id)as orders  from dl_goods_tuan t where state='1' and del_flag='0' and now() BETWEEN begin_date and end_date and id=?",goodsId);
         if(null==good){
 			f=false;

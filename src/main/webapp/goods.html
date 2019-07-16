@@ -55,7 +55,7 @@
 							<!-- <span class="memberNum">2</span>--><span class="memberNumTxt">{{goods.remarks}}</span></span></div>
 						<span class="saleStore">已拼{{goods.orders}}件</span>
 					</div>
-					<div class="delPrice-wrap"> <span class="delPriceTip">{{goods.time}}后优惠结束</span> </div>
+					<div class="delPrice-wrap"> <span style="color: #fff180 ;float: right" >距结束   {{goods.otime}}</span> </div>
 				</div>
 				<div class="proInfo">
 					<div>
@@ -96,7 +96,8 @@
                     urll:0,
                     urls:[],
                     furl:"",
-                    eurl:""
+                    eurl:"",
+                    otime:""
 				}
             }
         });
@@ -115,8 +116,85 @@
                 var str = JSON.stringify(newhouse);
                 localStorage.goods = str;
                 news.goods = newhouse;
+                 countTime();
+
             }, 'json');
+
 		})
+        function tow(n) {
+            return n >= 0 && n < 10 ? '0' + n : '' + n;
+        }
+        function countTime() {
+            var date = new Date();
+            var now = date.getTime();
+          // var endDate= new Date(2019,6,18,23,59,59);
+            //2019-07-18 23:59:59
+            console.log(date)
+            var d=news.goods.end_date+"";
+            var ymd=d.split("-");
+            var hms=ymd[2].split(" ")[1].split(":");
+            //console.log(ymd[0],ymd[1],ymd[2].split(" ")[0],hms[0],hms[1],hms[2]);
+            var endDate= new Date(ymd[0],ymd[1]-1,ymd[2].split(" ")[0],hms[0],hms[1],hms[2]);
+            console.log(endDate);
+            //var endDate = new Date(news.goods.end_date);//设置截止时间
+            var end = endDate.getTime();
+            var leftTime = end - now; //时间差
+            var d, h, m, s, ms;
+            var str="";
+            if(leftTime >= 0) {
+                d = Math.floor(leftTime / 1000 / 60 / 60 / 24);
+                h = Math.floor(leftTime / 1000 / 60 / 60 % 24);
+                m = Math.floor(leftTime / 1000 / 60 % 60);
+                s = Math.floor(leftTime / 1000 % 60);
+                ms = Math.floor(leftTime % 1000);
+                if(ms < 100) {
+                    ms = "0" + ms;
+                }
+                if(s < 10) {
+                    s = "0" + s;
+                }
+                if(m < 10) {
+                    m = "0" + m;
+                }
+                if(h < 10) {
+                    h = "0" + h;
+                }
+                  str = d + ' 天  ' + h + ':'  +m + ':'  + s + ':'  + ms;
+            } else {
+                console.log('已截止')
+                  str = '已结束';
+            }
+            Vue.set( news.goods, 'otime', str);
+           /* //将倒计时赋值到div中
+            document.getElementById("_d").innerHTML = d + "天";
+            document.getElementById("_h").innerHTML = h + "时";
+            document.getElementById("_m").innerHTML = m + "分";
+            document.getElementById("_s").innerHTML = s + "秒";
+            document.getElementById("_ms").innerHTML = ms + "毫秒";
+            //递归每秒调用countTime方法，显示动态时间效果*/
+            setTimeout(countTime, 50);
+        }
+
+        function getDate() {
+            var oDate = new Date();//获取日期对象
+            var oldTime = oDate.getTime();//现在距离1970年的毫秒数
+            var newDate = new Date(news.goods.end_date);
+            var newTime = newDate.getTime();//2019年距离1970年的毫秒数
+            var second = Math.floor((newTime - oldTime) / 1000);//未来时间距离现在的秒数
+            var day = Math.floor(second / 86400);//整数部分代表的是天；一天有24*60*60=86400秒 ；
+            second = second % 86400;//余数代表剩下的秒数；
+            var hour = Math.floor(second / 3600);//整数部分代表小时；
+            second %= 3600; //余数代表 剩下的秒数；
+            var minute = Math.floor(second / 60);
+            second %= 60;
+            var ms = Math.floor(second / 1000);
+            var str = tow(day) + ' 天  ' + tow(hour) + ':'  + tow(minute) + ':'  + tow(second) + ':'  + tow(ms);
+			console.log(str);
+            Vue.set( news.goods, 'otime', str);
+           // news.goods.otime= str
+        }
+
+
 
         function save() {
             mui.openWindow({
