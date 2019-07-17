@@ -42,7 +42,7 @@ public class DataController extends Controller {
 			}
 
 		}
-		List<Record> skus=Db.find("select spec1,spec2,stock from dl_goods_sku_tuan where goods_id=? ",id);
+		List<Record> skus=Db.find("select spec1,spec2,stock from dl_goods_sku_tuan where goods_id=? order by  spec1 asc ",id);
 		List<Record> spec1s=new ArrayList<>();
 		List<Record> spec2s=new ArrayList<>();
 		Map<String,String> spec1Map=new HashMap<>();
