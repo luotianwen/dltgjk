@@ -19,14 +19,18 @@
 
 
 			<div class="mui-content-padded">
-				<h5>{{spec11}}:</h5>
+				<!--<h5>{{spec11}}:</h5>-->
 				<!--<div class="mui-input-row ">
 					<input type="text" v-model="spec1"   class="mui-input-clear">
 				</div>-->
-				<div class="mui-input-row mui-radio mui-left" v-for="item in spec1s ">
+			   <!-- <div class="mui-input-row mui-radio mui-left" v-for="item in spec1s ">
 					<label>{{item.name}}</label>
 					<input v-model="spec1"   type="radio" :value="item.name">
-				</div>
+				</div>-->
+				<h5 class="mui-content-padded">{{spec11}}:</h5>
+				<select   v-model="spec1">
+					<option :value="item.name" v-for="item in spec1s ">{{item.name}}</option>
+				</select>
 
 				<block v-if="spec12">
 				<h5>{{spec12}}：</h5>
@@ -36,10 +40,11 @@
 					</div>
                </block>
 				<h5 class="mui-content-padded">购买数量：</h5>
-				<div class="mui-input-row ">
-					<!--S-->
-					<input class="mui-input" type="number" v-model="number"/>
-					<!--<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>-->
+
+				<div class="mui-numbox" data-numbox-min='1'>
+					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+					<input id="box" class="mui-input-numbox" type="number"  />
+					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
 				</div>
 				<h5>会员姓名：</h5>
 				<div class="mui-input-row ">
@@ -143,7 +148,8 @@
                 }
             })
 			function add() {
-              // alert(news.number);
+
+                news.number=document.getElementById("box").value;
                 var pdata={
                     goodsId:news.id,
                     phone:news.phone,
@@ -161,6 +167,10 @@
                     mui.alert(news.spec11+"不能为空");
                     return;
 				}
+                if(news.spec2==""&&news.spec12!=""){
+                    mui.alert(news.spec12+"不能为空");
+                    return;
+                }
                 if(news.userName==""){
                     mui.alert("会员姓名不能为空");
                     return;
