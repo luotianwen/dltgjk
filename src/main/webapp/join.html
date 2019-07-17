@@ -36,10 +36,10 @@
 					</div>
                </block>
 				<h5 class="mui-content-padded">购买数量：</h5>
-				<div class="mui-numbox" data-numbox-min='1'>
-					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					<input class="mui-input-numbox" type="number" v-model="number"/>
-					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+				<div class="mui-input-row ">
+					<!--S-->
+					<input class="mui-input" type="number" v-model="number"/>
+					<!--<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>-->
 				</div>
 				<h5>会员姓名：</h5>
 				<div class="mui-input-row ">
@@ -61,12 +61,30 @@
 				<div class="mui-input-row ">
 					<input type="text" v-model="address" class="mui-input-clear">
 				</div>
-				<div class="mui-button-row">
-					<button type="button" class="mui-btn mui-btn-danger" @tap="add()">确认</button>&nbsp;&nbsp;
-					<button type="button" class="mui-btn mui-btn-primary" @tap="closeee()">取消</button>
-				</div>
+
 			</div>
 
+			<div class="mui-content-padded">
+
+				<h4>注意事项</h4>
+				<p>
+					1、在拼团有效期内，参与拼团的商品数量达到最低要求既是拼团成功，反之则拼团失败，每人不限制购买拼团商品的数量
+				</p>
+				<p>
+					2、拼团成功后，动力跃博客服会与您确认订单，并从账户上扣除相应费用，请保证手机畅通
+				</p>
+				<p>3、所有拼团成功的商品将在拼团结算后24小时内发货
+				</p>
+				<p>4、拼团有效期内取消订单请拨打4006919311，拼团成功后不能做取消
+				</p>
+				<p>5、商品内外包装完好，吊牌不摘，不影响二次销售的商品支持7天无理由退换（电子商品除外，电子商品非质量问题，一经售出不支持退换）
+				</p>
+
+			</div>
+			<div class="mui-button-row">
+				<button type="button" class="mui-btn mui-btn-danger" @tap="add()">确认</button>&nbsp;&nbsp;
+				<button type="button" class="mui-btn mui-btn-primary" @tap="closeee()">取消</button>
+			</div>
 
 		</div>
 		<script type="text/javascript">
@@ -125,7 +143,7 @@
                 }
             })
 			function add() {
-
+              // alert(news.number);
                 var pdata={
                     goodsId:news.id,
                     phone:news.phone,
